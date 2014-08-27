@@ -32,9 +32,19 @@ bool GameLayer::init()
 		this->addChild(background2);
 		this->schedule(schedule_selector(GameLayer::backgroundMove), 0.01f);
 
+		//UFOµÀ¾ß
+		Sprite*  bomb = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("bomb.png"));
+		bomb->setAnchorPoint(ccp(0,0));
+		this->addChild(bomb);
+
+		LabelTTF* number = LabelTTF::create("X10", "fonts/Marker Felt.ttf", 50.0f, Size::ZERO, TextHAlignment::CENTER, TextVAlignment::TOP);
+		number->setAnchorPoint(ccp(0, 0));
+		number->setPosition(ccp(bomb->getContentSize().width*1.5,0));
+		this->addChild(number);
+
 		//·É»úÍ¼²ã
 		this->_planeLayer = PlaneLayer::createPlane();
-		this->addChild(_planeLayer,100);
+		this->addChild(_planeLayer, 100);
 
 		//×Óµ¯Í¼²ã
 		this->_bulletLayer = BulletLayer::create();
@@ -52,7 +62,7 @@ bool GameLayer::init()
 		_enemyLayer2->addEnemy();
 
 		this->_enemyLayer3 = new EnemyLayer("enemy3_n1.png", EnemyLayer::maxLIFE3, 5);
-		
+
 		this->addChild(_enemyLayer3);
 		_enemyLayer3->addEnemy();
 
@@ -80,13 +90,23 @@ void GameLayer::backgroundMove(float dt)
 void GameLayer::update(float dt){
 	collisionDetection();
 }
+void GameLayer::removePlane(float dt){
+	
+	this->removeChild(this->_planeLayer,true);
+}
 
 
 //Åö×²¼ì²â
 void GameLayer::collisionDetection(){
- 
+
+	//¼ì²â·É»úÊÇ·ñÏà×²
+	Rect planeRect = Rect();
+	if (this->_planeLayer->isAlive){
+		planeRect = this->_planeLayer->getChildByTag(PlaneLayer::AIRPLANE)->getBoundingBox();
+	}
+
 	Vector<Sprite*> boundToDelete;//´ýÉ¾³ýµÄ×Óµ¯
-	
+
 	//enemy1
 	for (Sprite* bullet : this->_bulletLayer->m_pAllBullet){
 		Rect boundRect = bullet->getBoundingBox();
@@ -94,8 +114,13 @@ void GameLayer::collisionDetection(){
 		for (Enemy* enemy1 : this->_enemyLayer1->m_pAllEnemy){
 			Rect enemyRect = enemy1->getBoundingBox();
 			if (enemyRect.intersectsRect(boundRect)){
+				enemy1->loseLife();
 				boundToDelete.pushBack(bullet);
 				enemyToDelete.pushBack(enemy1);
+			}
+
+			if (this->_planeLayer->isAlive&&enemyRect.intersectsRect(planeRect) && enemy1->getLife() > 0){
+				this->_planeLayer->isAlive = false;
 			}
 		}
 
@@ -117,10 +142,13 @@ void GameLayer::collisionDetection(){
 			if (enemyRect.intersectsRect(boundRect)){
 				enemy2->loseLife();
 				enemy2->getEnemy()->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy2_hit.png"));
-				if (enemy2->getLife()<=0){
+				if (enemy2->getLife() <= 0){
 					enemyToDelete.pushBack(enemy2);
 				}
 				boundToDelete.pushBack(bullet);
+			}
+			if (this->_planeLayer->isAlive&&enemyRect.intersectsRect(planeRect) && enemy2->getLife() > 0){
+				this->_planeLayer->isAlive = false;
 			}
 		}
 
@@ -147,6 +175,9 @@ void GameLayer::collisionDetection(){
 				}
 				boundToDelete.pushBack(bullet);
 			}
+			if (this->_planeLayer->isAlive&&enemyRect.intersectsRect(planeRect) && enemy3->getLife() > 0){
+				this->_planeLayer->isAlive = false;
+			}
 		}
 
 		for (Enemy* enemy3 : enemyToDelete){
@@ -157,5 +188,20 @@ void GameLayer::collisionDetection(){
 	for (Sprite* bullet : boundToDelete){
 		this->_bulletLayer->removeBullet(bullet);
 	}
- 
+
+	if (!this->_planeLayer->isAlive&&!GameConfig::GAME_OVER){
+		GameConfig::GAME_OVER = true;
+		this->_bulletLayer->stopShoot();
+		Sprite*	plane = (Sprite*)this->_planeLayer->getChildByTag(PlaneLayer::AIRPLANE);
+		Animation* animation = Animation::create();
+		animation->setDelayPerUnit(0.08f);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("hero_blowup_n1.png"));
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("hero_blowup_n2.png"));
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("hero_blowup_n3.png"));
+		Animate* blowup=Animate::create(animation);
+		FiniteTimeAction* remove= CallFuncN::create(CC_CALLBACK_0(GameLayer::removePlane, this, 0));
+		plane->runAction(Sequence::create(blowup, remove,NULL));
+			 
+	}
+
 }

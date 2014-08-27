@@ -39,7 +39,7 @@
     <ClCompile Include="..\Classes\EnemyLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\EnemyConfig.cpp">
+    <ClCompile Include="..\Classes\GameConfig.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +71,7 @@
     <ClInclude Include="..\Classes\EnemyLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\EnemyConfig.h">
+    <ClInclude Include="..\Classes\GameConfig.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

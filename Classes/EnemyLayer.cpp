@@ -9,7 +9,7 @@ EnemyLayer::EnemyLayer(std::string enemyPng, int enemyLife,float dt){
 	this->enemyLife = enemyLife;
 	this->enemyPng = enemyPng;
 	this->dt = dt;
-	enemyConfig = EnemyConfig::getInstance();
+	gameConfig = GameConfig::getInstance();
 	 
 	/*pSpriteBatchNode = SpriteBatchNode::create(enemyPng);
 	addChild(pSpriteBatchNode);*/
@@ -21,21 +21,21 @@ EnemyLayer::~EnemyLayer()
 
 Animation* EnemyLayer::getBlowupAnimation(Animation* animation, string enemyPng){
 	if (enemyPng.compare("enemy1.png")==0){
-		vector<string> enemy1 = enemyConfig->vector_enemy1;
+		vector<string> enemy1 = gameConfig->vector_enemy1;
 		for (string s : enemy1)
 		{
 			animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(s));
 		}
 	}
 	if (enemyPng.compare("enemy2.png") == 0){
-		vector<string> enemy2 = enemyConfig->vector_enemy2;
+		vector<string> enemy2 = gameConfig->vector_enemy2;
 		for (string s : enemy2)
 		{
 			animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(s));
 		}
 	}
 	if (enemyPng.compare("enemy3_n1.png") == 0){
-		vector<string> enemy3 = enemyConfig->vector_enemy3;
+		vector<string> enemy3 = gameConfig->vector_enemy3;
 		for (string s : enemy3)
 		{
 			animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(s));

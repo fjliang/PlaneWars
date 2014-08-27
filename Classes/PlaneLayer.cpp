@@ -16,8 +16,7 @@ bool PlaneLayer::init(){
 	do{
 		CC_BREAK_IF(!Layer::init());
 		Size winSize=	Director::sharedDirector()->getWinSize();
-		SpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("/ui/shoot.plist");
- 
+  
 		Sprite* plane = Sprite::createWithSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->getSpriteFrameByName("hero1.png"));
 		plane->setPosition(ccp(winSize.width / 2, plane->getContentSize().height/2));
 		this->addChild(plane, 0, AIRPLANE); //AIRPLANE ÊÇtag

@@ -14,6 +14,7 @@ public:
 	static bool isAlive;
 	void initTouchEvent();
 	void moveTo(Point location);
+
 };
 
 

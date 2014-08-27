@@ -19,5 +19,6 @@ public:
 	EnemyLayer* _enemyLayer3;
 	void collisionDetection();
 	void update(float dt);
+	void removePlane(float dt);
 };
 

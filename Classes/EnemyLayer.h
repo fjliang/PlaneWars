@@ -1,7 +1,7 @@
 #pragma once
 #include"cocos2d.h"
 #include"Enemy.h"
-#include"EnemyConfig.h"
+#include"GameConfig.h"
 USING_NS_CC;
 class EnemyLayer :public cocos2d::Layer
 {
@@ -14,7 +14,7 @@ public:
 	static const int maxLIFE1 = 1;
 	static const int maxLIFE2 = 3;
 	static const int maxLIFE3 = 5;
-	EnemyConfig* enemyConfig;
+	GameConfig* gameConfig;
 	Sprite* enemyPlane;
 	int enemyLife;
 	std::string enemyPng;
