@@ -10,30 +10,46 @@ EnemyLayer::EnemyLayer(std::string enemyPng, int enemyLife,float dt){
 	this->enemyPng = enemyPng;
 	this->dt = dt;
 	enemyConfig = EnemyConfig::getInstance();
+	 
 	/*pSpriteBatchNode = SpriteBatchNode::create(enemyPng);
 	addChild(pSpriteBatchNode);*/
 }
 
 EnemyLayer::~EnemyLayer()
 {
- 
+}
+
+Animation* EnemyLayer::getBlowupAnimation(Animation* animation, string enemyPng){
+	if (enemyPng.compare("enemy1.png")==0){
+		vector<string> enemy1 = enemyConfig->vector_enemy1;
+		for (string s : enemy1)
+		{
+			animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(s));
+		}
+	}
+	if (enemyPng.compare("enemy2.png") == 0){
+		vector<string> enemy2 = enemyConfig->vector_enemy2;
+		for (string s : enemy2)
+		{
+			animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(s));
+		}
+	}
+	if (enemyPng.compare("enemy3_n1.png") == 0){
+		vector<string> enemy3 = enemyConfig->vector_enemy3;
+		for (string s : enemy3)
+		{
+			animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(s));
+		}
+	}
+	return animation;
 }
 
 void EnemyLayer::enemyBlowup(Enemy* enemy){
-	
-	Animation* animation = Animation::create( );
-	animation->setDelayPerUnit(0.1f);
-	
-	 
-
-	animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy1_down1.png"));
-	animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy1_down2.png"));
-	animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy1_down3.png"));
-	animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy1_down4.png"));
-	 
-	Animate* animate=Animate::create(animation);
+	Animation* animation = Animation::create();
+	animation->setDelayPerUnit(0.05f);
+	Animate* blowupAnimate = Animate::create(getBlowupAnimation(animation, this->enemyPng));
 	CallFuncN* removeEnemy = CallFuncN::create(CC_CALLBACK_0(EnemyLayer::removeEnemy, this, enemy));
-	Sequence* sequence = Sequence::create(animate,removeEnemy,NULL);
+	Sequence* sequence = Sequence::create(blowupAnimate, removeEnemy, NULL);
 	enemy->getEnemy()->runAction(sequence);
 }
 
@@ -91,11 +107,19 @@ void EnemyLayer::initEnemy(float dt){
 	int rangeDuration = maxDuration - minDuration;
 	int acturalDuration = rand() % rangeDuration + minDuration;
 	FiniteTimeAction* actionMove = MoveTo::create(acturalDuration, ccp(actualX, -enemyPlane->getContentSize().height / 2));
-	 
 	FiniteTimeAction* actionDone = CallFuncN::create(CC_CALLBACK_0(EnemyLayer::enemyMoveFinished, this, enemy));
 	Sequence* sequence = Sequence::create(actionMove, actionDone, NULL);
-	 
 	enemyPlane->runAction(sequence);
+
+	if (this->enemyPng.compare("enemy3_n1.png")==0){
+		Animation* animation = Animation::create();
+		animation->setDelayPerUnit(0.05f);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy3_n1.png"));
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy3_n2.png"));
+		enemyPlane->runAction(RepeatForever::create(Animate::create(animation)));
+	}
+
+
 }
 void EnemyLayer::addEnemy(){
 	schedule(schedule_selector(EnemyLayer::initEnemy),this->dt,kRepeatForever,0);

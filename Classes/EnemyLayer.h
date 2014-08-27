@@ -19,7 +19,7 @@ public:
 	int enemyLife;
 	std::string enemyPng;
 	float dt;
-	//SpriteBatchNode* pSpriteBatchNode;
+	SpriteBatchNode* pSpriteBatchNode;
 	//µÐ»ú±¬Õ¨
 	void enemyBlowup(Enemy* enemy);
 	void removeEnemy(Enemy* enemy);
@@ -27,6 +27,7 @@ public:
 	void enemyMoveFinished(Enemy* enemy);
 	void initEnemy(float dt);
 	void addEnemy();
+	Animation* getBlowupAnimation(Animation* animation,string enemyPng);
 	
 };
 

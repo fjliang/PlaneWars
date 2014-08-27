@@ -1,19 +1,28 @@
 #pragma once
-#include"cocos2d.h"
-USING_NS_CC; 
+#include<vector>
+using std::string;
+using std::vector;
 class EnemyConfig
 {
-public:
-	EnemyConfig();
-	~EnemyConfig();
-	static EnemyConfig* getInstance();
-	static Vector<std::string> vector_enemy1;
-	static Vector<std::string> vector_enemy2;
-	static Vector<std::string> vector_enemy3;
 
 private:
-	EnemyConfig* enemyConfig;
+	EnemyConfig();
+	static EnemyConfig* enemyConfig;
+public:
+	
+	~EnemyConfig();
+	static EnemyConfig* getInstance(){
+		if (NULL==enemyConfig){
+			enemyConfig = new EnemyConfig();
+		}
+		return enemyConfig;
+	};
+
+	vector<string> vector_enemy1;
+	vector<string> vector_enemy2;
+	vector<string> vector_enemy3;
+
+
 
 };
-
 

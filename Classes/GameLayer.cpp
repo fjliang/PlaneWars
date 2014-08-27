@@ -9,7 +9,6 @@ GameLayer::GameLayer()
 {
 }
 
-
 GameLayer::~GameLayer()
 {
 }
@@ -44,15 +43,16 @@ bool GameLayer::init()
 		this->setTouchEnabled(true);
 
 		//µÐ»úÍ¼²ã
-		this->_enemyLayer1 = new EnemyLayer("enemy1.png", EnemyLayer::maxLIFE1, 2);
+		this->_enemyLayer1 = new EnemyLayer("enemy1.png", EnemyLayer::maxLIFE1, 1);
 		this->addChild(_enemyLayer1);
 		_enemyLayer1->addEnemy();
 
-		this->_enemyLayer2 = new EnemyLayer("enemy2.png", EnemyLayer::maxLIFE2, 4);
+		this->_enemyLayer2 = new EnemyLayer("enemy2.png", EnemyLayer::maxLIFE2, 3);
 		this->addChild(_enemyLayer2);
 		_enemyLayer2->addEnemy();
 
-		this->_enemyLayer3 = new EnemyLayer("enemy3_n1.png", EnemyLayer::maxLIFE3, 6);
+		this->_enemyLayer3 = new EnemyLayer("enemy3_n1.png", EnemyLayer::maxLIFE3, 5);
+		
 		this->addChild(_enemyLayer3);
 		_enemyLayer3->addEnemy();
 
@@ -87,13 +87,13 @@ void GameLayer::collisionDetection(){
  
 	Vector<Sprite*> boundToDelete;//´ýÉ¾³ýµÄ×Óµ¯
 	
+	//enemy1
 	for (Sprite* bullet : this->_bulletLayer->m_pAllBullet){
 		Rect boundRect = bullet->getBoundingBox();
 		Vector<Enemy*> enemyToDelete;//´ýÉ¾³ýµÄµÐ»ú
 		for (Enemy* enemy1 : this->_enemyLayer1->m_pAllEnemy){
 			Rect enemyRect = enemy1->getBoundingBox();
 			if (enemyRect.intersectsRect(boundRect)){
-				enemy1->loseLife();
 				boundToDelete.pushBack(bullet);
 				enemyToDelete.pushBack(enemy1);
 			}
@@ -104,35 +104,58 @@ void GameLayer::collisionDetection(){
 		}
 
 	}
-
 	for (Sprite* bullet : boundToDelete){
 		this->_bulletLayer->removeBullet(bullet);
 	}
+	//enemy2
+	boundToDelete.clear();
+	for (Sprite* bullet : this->_bulletLayer->m_pAllBullet){
+		Rect boundRect = bullet->getBoundingBox();
+		Vector<Enemy*> enemyToDelete;//´ýÉ¾³ýµÄµÐ»ú
+		for (Enemy* enemy2 : this->_enemyLayer2->m_pAllEnemy){
+			Rect enemyRect = enemy2->getBoundingBox();
+			if (enemyRect.intersectsRect(boundRect)){
+				enemy2->loseLife();
+				enemy2->getEnemy()->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy2_hit.png"));
+				if (enemy2->getLife()<=0){
+					enemyToDelete.pushBack(enemy2);
+				}
+				boundToDelete.pushBack(bullet);
+			}
+		}
 
+		for (Enemy* enemy2 : enemyToDelete){
+			_enemyLayer2->enemyBlowup(enemy2);
+		}
 
-	//CCARRAY_FOREACH(this->_bulletLayer->m_pAllBullet, bt){
-	//	Sprite* bullet = (Sprite*)bt;
-	//	Array* enemyToDelete = Array::create();//±»»÷ÖÐµÄµÐ»ú
-	//	enemyToDelete->retain();
-	//	Rect boundRect = bullet->getBoundingBox();
-	//	CCARRAY_FOREACH(this->_enemyLayer1->m_pAllEnemy, e1){
-	//		EnemyLayer* enemy1 = (EnemyLayer*)e1;
-	//		Rect enemyRect = enemy1->getBoundingBox();
-	//		if (boundRect.intersectsRect(enemyRect)){
-	//			enemy1->loseLife();
-	//			boundToDelete->addObject(bullet);
-	//			enemyToDelete->addObject(enemy1);
-	//		}
+	}
+	for (Sprite* bullet : boundToDelete){
+		this->_bulletLayer->removeBullet(bullet);
+	}
+	//enemy3
+	boundToDelete.clear();
+	for (Sprite* bullet : this->_bulletLayer->m_pAllBullet){
+		Rect boundRect = bullet->getBoundingBox();
+		Vector<Enemy*> enemyToDelete;//´ýÉ¾³ýµÄµÐ»ú
+		for (Enemy* enemy3 : this->_enemyLayer3->m_pAllEnemy){
+			Rect enemyRect = enemy3->getBoundingBox();
+			if (enemyRect.intersectsRect(boundRect)){
+				enemy3->loseLife();
+				enemy3->getEnemy()->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("enemy3_hit.png"));
+				if (enemy3->getLife() <= 0){
+					enemyToDelete.pushBack(enemy3);
+				}
+				boundToDelete.pushBack(bullet);
+			}
+		}
 
-	//	}
+		for (Enemy* enemy3 : enemyToDelete){
+			_enemyLayer3->enemyBlowup(enemy3);
+		}
 
-	//	CCARRAY_FOREACH(enemyToDelete, e1){
-	//		EnemyLayer* enemy1 = (EnemyLayer*)e1;
-	//		enemy1->enemyBlowup(enemy1);
-	//	}
-	//}
-	//CCARRAY_FOREACH(boundToDelete, bt){
-	//	Sprite* bullet = (Sprite*)bt;
-	//	this->_bulletLayer->removeBullet(bullet);
-	//}
+	}
+	for (Sprite* bullet : boundToDelete){
+		this->_bulletLayer->removeBullet(bullet);
+	}
+ 
 }
