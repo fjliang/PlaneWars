@@ -3,6 +3,9 @@
 #include "PlaneLayer.h"
 #include "BulletLayer.h"
 #include "EnemyLayer.h"
+#include "UFOLayer.h"
+#include "BombLayer.h"
+
 USING_NS_CC; 
 class GameLayer : public cocos2d::Layer
 {

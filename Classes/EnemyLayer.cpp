@@ -101,8 +101,8 @@ void EnemyLayer::initEnemy(float dt){
 	m_pAllEnemy.pushBack(enemy);
 	//随机飞行速度
 	float minDuration, maxDuration;
-	minDuration = 30 / 1;
-	maxDuration = 5 / 1;
+	minDuration = GameConfig::ENEMY_MIN_SPEED;
+	maxDuration = GameConfig::ENEMY_MAX_SPEED;
 	//根据游戏难度赋值
 	int rangeDuration = maxDuration - minDuration;
 	int acturalDuration = rand() % rangeDuration + minDuration;

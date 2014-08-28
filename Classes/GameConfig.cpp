@@ -2,6 +2,7 @@
 
 GameConfig* GameConfig::gameConfig = NULL;
 bool GameConfig::GAME_OVER = false;
+ 
 GameConfig::GameConfig()
 {
 	vector_enemy1.push_back("enemy1_down1.png");

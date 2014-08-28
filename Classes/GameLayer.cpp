@@ -32,15 +32,19 @@ bool GameLayer::init()
 		this->addChild(background2);
 		this->schedule(schedule_selector(GameLayer::backgroundMove), 0.01f);
 
-		//UFO道具
-		Sprite*  bomb = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("bomb.png"));
-		bomb->setAnchorPoint(ccp(0,0));
-		this->addChild(bomb);
+		//bomb道具
+		BombLayer* bombLayer=	BombLayer::create();
+		this->addChild(bombLayer,101);
 
-		LabelTTF* number = LabelTTF::create("X10", "fonts/Marker Felt.ttf", 50.0f, Size::ZERO, TextHAlignment::CENTER, TextVAlignment::TOP);
-		number->setAnchorPoint(ccp(0, 0));
-		number->setPosition(ccp(bomb->getContentSize().width*1.5,0));
-		this->addChild(number);
+		//UFO1
+		UFOLayer* ufo1 = new UFOLayer("ufo1.png");
+		this->addChild(ufo1);
+		ufo1->startUFO();
+
+		//UFO2
+		UFOLayer* ufo2 = new UFOLayer("ufo2.png");
+		this->addChild(ufo2);
+		ufo2->startUFO();
 
 		//飞机图层
 		this->_planeLayer = PlaneLayer::createPlane();
@@ -53,15 +57,15 @@ bool GameLayer::init()
 		this->setTouchEnabled(true);
 
 		//敌机图层
-		this->_enemyLayer1 = new EnemyLayer("enemy1.png", EnemyLayer::maxLIFE1, 1);
+		this->_enemyLayer1 = new EnemyLayer("enemy1.png", GameConfig::maxLIFE1, GameConfig::ENEMY1_DT);
 		this->addChild(_enemyLayer1);
 		_enemyLayer1->addEnemy();
 
-		this->_enemyLayer2 = new EnemyLayer("enemy2.png", EnemyLayer::maxLIFE2, 3);
+		this->_enemyLayer2 = new EnemyLayer("enemy2.png", GameConfig::maxLIFE2, GameConfig::ENEMY2_DT);
 		this->addChild(_enemyLayer2);
 		_enemyLayer2->addEnemy();
 
-		this->_enemyLayer3 = new EnemyLayer("enemy3_n1.png", EnemyLayer::maxLIFE3, 5);
+		this->_enemyLayer3 = new EnemyLayer("enemy3_n1.png", GameConfig::maxLIFE3, GameConfig::ENEMY3_DT);
 
 		this->addChild(_enemyLayer3);
 		_enemyLayer3->addEnemy();

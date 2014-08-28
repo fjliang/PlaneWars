@@ -11,9 +11,6 @@ public:
 	~EnemyLayer();
 	CREATE_FUNC(EnemyLayer);
 	Vector<Enemy*>  m_pAllEnemy;
-	static const int maxLIFE1 = 1;
-	static const int maxLIFE2 = 3;
-	static const int maxLIFE3 = 5;
 	GameConfig* gameConfig;
 	Sprite* enemyPlane;
 	int enemyLife;

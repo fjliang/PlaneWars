@@ -47,7 +47,7 @@ void BulletLayer::startShoot(float delay){
 }
 
 void BulletLayer::removeBullet(Sprite* bullet){
-	if (bullet != NULL){
+	if (bullet != NULL&&this->m_pAllBullet.contains(bullet)){
 		this->m_pAllBullet.eraseObject(bullet);
 		bulletBatchNode->removeChild(bullet, true);
 	}
