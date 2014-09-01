@@ -21,9 +21,6 @@ bool GameLayer::init()
 	bool bRet = false;
 	do{
 		CC_BREAK_IF(!Layer::init());
-		//加入全局cache中
-		SpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("ui/shoot_background.plist");
-		SpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("ui/shoot.plist");
 
 		background1 = Sprite::createWithSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->getSpriteFrameByName("background.png"));
 		background1->setAnchorPoint(ccp(0, 0));
