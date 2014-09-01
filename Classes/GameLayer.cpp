@@ -4,7 +4,10 @@ USING_NS_CC;
 
 Sprite* background1;
 Sprite* background2;
-
+Label* bombLabel;
+UFOLayer* ufo1;
+UFOLayer* ufo2;
+int GameLayer::bombNumber = 3;
 GameLayer::GameLayer()
 {
 }
@@ -33,16 +36,15 @@ bool GameLayer::init()
 		this->schedule(schedule_selector(GameLayer::backgroundMove), 0.01f);
 
 		//bombµ¿æﬂ
-		BombLayer* bombLayer=	BombLayer::create();
-		this->addChild(bombLayer,101);
+		initBomb();
 
 		//UFO1
-		UFOLayer* ufo1 = new UFOLayer("ufo1.png");
+		ufo1 = new UFOLayer("ufo1.png");
 		this->addChild(ufo1);
 		ufo1->startUFO();
 
 		//UFO2
-		UFOLayer* ufo2 = new UFOLayer("ufo2.png");
+		ufo2 = new UFOLayer("ufo2.png");
 		this->addChild(ufo2);
 		ufo2->startUFO();
 
@@ -91,12 +93,46 @@ void GameLayer::backgroundMove(float dt)
 
 }
 
+void GameLayer::initBomb(){
+	MenuItemImage* bomb = MenuItemImage::create("ui/shoot/bomb.png",
+		"ui/shoot/bomb.png", CC_CALLBACK_1(GameLayer::bobmUp, this));
+	bomb->setAnchorPoint(ccp(0, 0));
+	auto menu = Menu::create(bomb, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 101);
+	//bomb∏ˆ ˝
+	bombLabel = Label::createWithTTF(setBomb(this->bombNumber), "fonts/MarkerFelt.ttf", 50.0f);
+	bombLabel->setAnchorPoint(ccp(0, 0));
+	bombLabel->setPosition(ccp(bomb->getContentSize().width*1.2, 0));
+	this->addChild(bombLabel, 101);
+}
+
+string GameLayer::setBomb(int number){
+	std::stringstream ss;
+	ss << "X " << number;
+	return ss.str();
+}
+
+void GameLayer::bobmUp(Ref* pSender){
+
+	if (this->_planeLayer->isAlive && this->bombNumber > 0){
+		this->bombNumber--;
+		bombLabel->setString(setBomb(this->bombNumber));
+
+		this->_enemyLayer1->removeAllEnemy(_enemyLayer1->m_pAllEnemy);
+		this->_enemyLayer2->removeAllEnemy(_enemyLayer2->m_pAllEnemy);
+		this->_enemyLayer3->removeAllEnemy(_enemyLayer3->m_pAllEnemy);
+
+
+	}
+}
+
 void GameLayer::update(float dt){
 	collisionDetection();
 }
+
 void GameLayer::removePlane(float dt){
-	
-	this->removeChild(this->_planeLayer,true);
+	this->removeChild(this->_planeLayer, true);
 }
 
 
@@ -193,19 +229,48 @@ void GameLayer::collisionDetection(){
 		this->_bulletLayer->removeBullet(bullet);
 	}
 
+	//∑…ª˙±¨’®
 	if (!this->_planeLayer->isAlive&&!GameConfig::GAME_OVER){
 		GameConfig::GAME_OVER = true;
 		this->_bulletLayer->stopShoot();
+		this->_bulletLayer->stopBlue(0);
 		Sprite*	plane = (Sprite*)this->_planeLayer->getChildByTag(PlaneLayer::AIRPLANE);
 		Animation* animation = Animation::create();
 		animation->setDelayPerUnit(0.08f);
 		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("hero_blowup_n1.png"));
 		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("hero_blowup_n2.png"));
 		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("hero_blowup_n3.png"));
-		Animate* blowup=Animate::create(animation);
-		FiniteTimeAction* remove= CallFuncN::create(CC_CALLBACK_0(GameLayer::removePlane, this, 0));
-		plane->runAction(Sequence::create(blowup, remove,NULL));
-			 
+		Animate* blowup = Animate::create(animation);
+		FiniteTimeAction* remove = CallFuncN::create(CC_CALLBACK_0(GameLayer::removePlane, this, 0));
+		plane->runAction(Sequence::create(blowup, remove, NULL));
+
+	}
+
+	//ºÏ≤‚’®µØUFO
+	Vector<Sprite*> vector_ufo = ufo2->vector_ufo;
+	if (_planeLayer->isAlive){
+		for (Sprite* ufo : vector_ufo){
+			Rect ufoRect = ufo->getBoundingBox();
+			if (ufoRect.intersectsRect(planeRect)){
+				ufo2->removeUFO(ufo);
+				this->bombNumber++;
+				bombLabel->setString(setBomb(this->bombNumber));
+			}
+		}
+	}
+	//ºÏ≤‚◊”µØUFO
+	vector_ufo = ufo1->vector_ufo;
+	if (_planeLayer->isAlive){
+		for (Sprite* ufo : vector_ufo){
+			Rect ufoRect = ufo->getBoundingBox();
+			if (ufoRect.intersectsRect(planeRect)){
+				ufo1->removeUFO(ufo);
+				this->_bulletLayer->startBlueShoot(0);
+
+				this->_bulletLayer->stopBlueShoot();
+
+			}
+		}
 	}
 
 }

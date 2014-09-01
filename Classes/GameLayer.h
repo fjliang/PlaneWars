@@ -14,7 +14,9 @@ public:
 	~GameLayer();
 	CREATE_FUNC(GameLayer);
 	bool init();
+	void initBomb();
 	void backgroundMove(float dt);
+	static int bombNumber;
 	PlaneLayer* _planeLayer; 
 	BulletLayer* _bulletLayer;
 	EnemyLayer* _enemyLayer1;
@@ -23,5 +25,7 @@ public:
 	void collisionDetection();
 	void update(float dt);
 	void removePlane(float dt);
+	string setBomb(int number);
+	void bobmUp(Ref* pSender);
 };
 

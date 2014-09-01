@@ -20,7 +20,7 @@ public:
 	//µÐ»ú±¬Õ¨
 	void enemyBlowup(Enemy* enemy);
 	void removeEnemy(Enemy* enemy);
-	void removeAllEnemy();
+	void removeAllEnemy(Vector<Enemy*>  m_pAllEnemy);
 	void enemyMoveFinished(Enemy* enemy);
 	void initEnemy(float dt);
 	void addEnemy();

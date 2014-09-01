@@ -56,6 +56,7 @@ void UFOLayer::addUFO(float dt){
 }
 void UFOLayer::removeUFO(Sprite* ufo){
 	vector_ufo.eraseObject(ufo);
+	spriteBatchNode->removeChild(ufo,true);
 }
 void UFOLayer::startUFO(){
 	schedule(schedule_selector(UFOLayer::addUFO), this->interval, kRepeatForever, this->dt);

@@ -62,7 +62,7 @@ void EnemyLayer::removeEnemy(Enemy* enemy){
 	}
 }
 
-void EnemyLayer::removeAllEnemy(){
+void EnemyLayer::removeAllEnemy(Vector<Enemy*>  m_pAllEnemy){
 
 	for (Enemy* enemy : m_pAllEnemy)
 	{
