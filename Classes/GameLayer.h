@@ -4,7 +4,7 @@
 #include "BulletLayer.h"
 #include "EnemyLayer.h"
 #include "UFOLayer.h"
-#include "BombLayer.h"
+#include "ControlLayer.h"
 
 USING_NS_CC; 
 class GameLayer : public cocos2d::Layer
@@ -22,6 +22,7 @@ public:
 	EnemyLayer* _enemyLayer1;
 	EnemyLayer* _enemyLayer2;
 	EnemyLayer* _enemyLayer3;
+	ControlLayer* control;
 	void collisionDetection();
 	void update(float dt);
 	void removePlane(float dt);

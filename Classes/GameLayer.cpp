@@ -8,6 +8,7 @@ Label* bombLabel;
 UFOLayer* ufo1;
 UFOLayer* ufo2;
 int GameLayer::bombNumber = 3;
+int score = 0;
 GameLayer::GameLayer()
 {
 }
@@ -72,6 +73,11 @@ bool GameLayer::init()
 		this->addChild(_enemyLayer3);
 		_enemyLayer3->addEnemy();
 
+		//¿ØÖÆ²ã
+		control= ControlLayer::create();
+		this->addChild(control,101);
+
+
 		scheduleUpdate();
 
 		bRet = true;
@@ -97,9 +103,9 @@ void GameLayer::initBomb(){
 	MenuItemImage* bomb = MenuItemImage::create("ui/shoot/bomb.png",
 		"ui/shoot/bomb.png", CC_CALLBACK_1(GameLayer::bobmUp, this));
 	bomb->setAnchorPoint(ccp(0, 0));
-	auto menu = Menu::create(bomb, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 101);
+	Menu* bombMenu = Menu::create(bomb, NULL);
+	bombMenu->setPosition(Vec2::ZERO);          
+	this->addChild(bombMenu, 101);
 	//bomb¸öÊý
 	bombLabel = Label::createWithTTF(setBomb(this->bombNumber), "fonts/MarkerFelt.ttf", 50.0f);
 	bombLabel->setAnchorPoint(ccp(0, 0));
@@ -115,15 +121,19 @@ string GameLayer::setBomb(int number){
 
 void GameLayer::bobmUp(Ref* pSender){
 
-	if (this->_planeLayer->isAlive && this->bombNumber > 0){
+	if (!Director::getInstance()->isPaused() && this->_planeLayer->isAlive && this->bombNumber > 0){
 		this->bombNumber--;
 		bombLabel->setString(setBomb(this->bombNumber));
+
+		score += _enemyLayer1->m_pAllEnemy.size()*GameConfig::ENEMY1_SCORE;
+		score += _enemyLayer2->m_pAllEnemy.size()*GameConfig::ENEMY2_SCORE;
+		score += _enemyLayer3->m_pAllEnemy.size()*GameConfig::ENEMY3_SCORE;
 
 		this->_enemyLayer1->removeAllEnemy(_enemyLayer1->m_pAllEnemy);
 		this->_enemyLayer2->removeAllEnemy(_enemyLayer2->m_pAllEnemy);
 		this->_enemyLayer3->removeAllEnemy(_enemyLayer3->m_pAllEnemy);
 
-
+		this->control->updateScore(score);
 	}
 }
 
@@ -166,6 +176,7 @@ void GameLayer::collisionDetection(){
 
 		for (Enemy* enemy1 : enemyToDelete){
 			_enemyLayer1->enemyBlowup(enemy1);
+			score += GameConfig::ENEMY1_SCORE;
 		}
 
 	}
@@ -194,6 +205,7 @@ void GameLayer::collisionDetection(){
 
 		for (Enemy* enemy2 : enemyToDelete){
 			_enemyLayer2->enemyBlowup(enemy2);
+			score += GameConfig::ENEMY2_SCORE;
 		}
 
 	}
@@ -222,6 +234,7 @@ void GameLayer::collisionDetection(){
 
 		for (Enemy* enemy3 : enemyToDelete){
 			_enemyLayer3->enemyBlowup(enemy3);
+			score += GameConfig::ENEMY3_SCORE;
 		}
 
 	}
@@ -272,5 +285,8 @@ void GameLayer::collisionDetection(){
 			}
 		}
 	}
+
+	this->control->updateScore(score);
+
 
 }

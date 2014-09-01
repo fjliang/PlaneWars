@@ -31,6 +31,10 @@ public:
 	static const int ENEMY2_DT = 3;
 	static const int ENEMY3_DT = 5;
 
+	static const int ENEMY1_SCORE = 10;
+	static const int ENEMY2_SCORE = 30;
+	static const int ENEMY3_SCORE = 50;
+
 	static const int ENEMY_MIN_SPEED = 30 ;
 	static const int ENEMY_MAX_SPEED = 5 ;
 
