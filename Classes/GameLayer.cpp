@@ -140,6 +140,12 @@ void GameLayer::update(float dt){
 
 void GameLayer::removePlane(float dt){
 	this->removeChild(this->_planeLayer, true);
+	GameOverLayer::highestScore = score;
+
+	auto fade= TransitionCrossFade::create(0.2, GameOverScene::create());
+	Director::getInstance()->replaceScene(fade);
+	this->cleanup();
+
 }
 
 
