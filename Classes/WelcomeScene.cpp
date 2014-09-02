@@ -23,6 +23,6 @@ bool WelcomeScene::init(){
 }
 
 void WelcomeScene::switchScene(float dt){
-
-	Director::getInstance()->replaceScene(GameScene::create());
+	auto transition= TransitionCrossFade::create(0.2, GameScene::create());
+	Director::getInstance()->replaceScene(transition);
 }

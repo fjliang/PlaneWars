@@ -54,8 +54,12 @@
     <ClCompile Include="..\Classes\GameOverLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\WelcomeScene.cpp" />
-    <ClCompile Include="..\Classes\GameOverScene.cpp" />
+    <ClCompile Include="..\Classes\GameOverScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\WelcomeScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -100,8 +104,12 @@
     <ClInclude Include="..\Classes\GameOverLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\WelcomeScene.h" />
-    <ClInclude Include="..\Classes\GameOverScene.h" />
+    <ClInclude Include="..\Classes\GameOverScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\WelcomeScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
