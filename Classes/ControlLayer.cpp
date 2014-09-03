@@ -18,7 +18,7 @@ bool ControlLayer::init(){
 		pauseItem->setNormalSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("game_resume_nor.png"));
 		pauseItem->setSelectedSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("game_resume_pressed.png"));
 		pauseItem->setCallback(CC_CALLBACK_1(ControlLayer::menuPauseCallback, this));
-		pauseItem->setPosition(ccp(30, size.height - 30));
+		pauseItem->setPosition(ccp(30 , size.height - 40 - pauseItem->getContentSize().height));
 		auto menu = Menu::create(pauseItem, NULL);
 		menu->setPosition(Vec2::ZERO);
 		this->addChild(menu);

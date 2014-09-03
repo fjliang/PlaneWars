@@ -17,15 +17,16 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLView::create("My Game");
+		glview->setFrameSize(480,800);
+		//glview->setDesignResolutionSize(480, 800, kResolutionShowAll);
         director->setOpenGLView(glview);
-		/*glview->setFrameSize(480,800);*/
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    //director->setDisplayStats(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0 / 60);
+    //director->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
 	WelcomeScene *scene = WelcomeScene::create();

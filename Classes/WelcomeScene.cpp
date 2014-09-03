@@ -11,10 +11,10 @@ WelcomeScene::~WelcomeScene()
 bool WelcomeScene::init(){
 	bool bRet = false;
 	do{
-
+ 
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("sound/game_music.mp3",true);
 		WelcomeLayer* welcome= WelcomeLayer::create();
 		this->addChild(welcome);
-		  
 		schedule(schedule_selector(WelcomeScene::switchScene), 0, 0, 2);
 
 		bRet = true;

@@ -7,7 +7,8 @@
 #include "ControlLayer.h"
 #include "GameOverLayer.h"
 #include "GameOverScene.h"
-
+#include"SimpleAudioEngine.h"
+using namespace CocosDenshion;
 USING_NS_CC; 
 class GameLayer : public cocos2d::Layer
 {

@@ -21,8 +21,8 @@ bool WelcomeLayer::init(){
 		Sprite* title = Sprite::create("ui/shoot_background/shoot_copyright.png");
 		Sprite* loading = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("game_loading1.png"));
 
-		backGround->setPosition(ccp(backGround->getContentSize().width/2, size.height / 2));
-		title->setPosition(ccp(backGround->getContentSize().width/2  , size.height - title->getContentSize().height/3));
+		backGround->setPosition(ccp(size.width / 2, size.height / 2));
+		title->setPosition(ccp(size.width / 2, size.height/2 + title->getContentSize().height ));
 		loading->setPosition(ccp(backGround->getContentSize().width / 2, title->getPosition().y - title->getContentSize().height / 2 - loading->getContentSize().height / 2));
 
 		Animation* animation=	Animation::create();

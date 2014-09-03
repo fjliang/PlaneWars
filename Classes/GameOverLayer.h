@@ -1,5 +1,6 @@
 #pragma once
 #include"cocos2d.h"
+#include"Utils.h"
 USING_NS_CC;
 class GameOverLayer : public cocos2d::Layer
 {
