@@ -10,7 +10,7 @@ public:
 	WelcomeLayer();
 	~WelcomeLayer();
 	CREATE_FUNC(WelcomeLayer);
-	bool init();
+	virtual bool init();
 	bool isExistHistroy();
 	void getHighestHistroyScore();
 };

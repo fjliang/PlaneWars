@@ -10,6 +10,6 @@ public:
 	~GameScene();
 	CREATE_FUNC(GameScene);
 	virtual bool init();
-	GameLayer* _gameLayer;//°Ñgamelayer±©Â¶¸øGameScene
+	GameLayer* _gameLayer;//ï¿½ï¿½gamelayerï¿½ï¿½Â¶ï¿½ï¿½GameScene
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include<vector>
+#include<vector.h>
 using std::string;
 using std::vector;
 class GameConfig
