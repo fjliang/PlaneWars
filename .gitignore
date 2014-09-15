@@ -15,7 +15,8 @@ $RECYCLE.BIN/
 *.msp
 Debug.win32
 cocos2d
-proj.android
+bin
+gen
 proj.ios_mac
 proj.linux
 proj.wp8-xaml
