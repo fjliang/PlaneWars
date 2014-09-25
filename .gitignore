@@ -20,6 +20,7 @@ gen
 proj.ios_mac
 proj.linux
 proj.wp8-xaml
+armeabi
 *.sdf
 
 # =========================
